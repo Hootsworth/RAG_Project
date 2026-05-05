@@ -74,11 +74,11 @@ function renderEvidence(retrieval) {
   evidenceList.innerHTML = "";
   const items = [
     ...(retrieval.topics || []).slice(0, 3).map((item) => ({
-      title: `Topic ${item.id} · messages ${item.start_message_id}-${item.end_message_id} · score ${item.score}`,
+      title: `Topic ${item.id} · messages ${item.start_message_id}-${item.end_message_id} · relevance ${item.score} · centrality ${item.centrality ?? "n/a"}`,
       body: item.summary,
     })),
     ...(retrieval.chunks || []).slice(0, 3).map((item) => ({
-      title: `Chunk ${item.id} · messages ${item.start_message_id}-${item.end_message_id} · score ${item.score}`,
+      title: `Chunk ${item.id} · messages ${item.start_message_id}-${item.end_message_id} · relevance ${item.score} · centrality ${item.centrality ?? "n/a"}`,
       body: item.text,
     })),
   ];

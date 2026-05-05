@@ -31,9 +31,10 @@ Running `scripts/build_index.py` creates:
 - `artifacts/hundred_checkpoints.json`: summaries for every 100 chronological messages
 - `artifacts/message_chunks.json`: overlapping retrievable chunks of raw messages
 - `artifacts/persona.json`: structured persona with evidence message IDs
+- `artifacts/topic_pagerank.json` and `artifacts/chunk_pagerank.json`: graph centrality scores used for reranking
 - `artifacts/*_index.joblib`: local TF-IDF indexes for topics, chunks, and 100-message checkpoints
 
-No external API is used. Retrieval is local TF-IDF via scikit-learn.
+No external API is used. Retrieval is local TF-IDF plus a PageRank reranking boost via scikit-learn and NumPy.
 
 ## Topic Change Detection
 
@@ -82,6 +83,25 @@ For each user question, the system retrieves from three local indexes:
 - 100-message checkpoint summaries
 
 The answer combines high-scoring topic summaries with raw message evidence. Persona-style questions such as “What are their habits?” use the persona JSON first, while still returning retrieved evidence for transparency.
+
+## PageRank Reranking
+
+The chatbot remains a RAG system. PageRank improves only the retrieval stage.
+
+During indexing, topic checkpoints and message chunks are converted into local similarity graphs:
+
+- each topic checkpoint or message chunk is a node
+- edges connect nodes with high TF-IDF cosine similarity
+- PageRank estimates which nodes are central across recurring conversation themes
+
+At query time, TF-IDF still finds query-relevant records. PageRank is then used as a small graph-based boost:
+
+```text
+candidate_pool = top query-similar records
+final_score = 0.93 * query_similarity + 0.07 * pagerank_centrality
+```
+
+This keeps answers query-specific while preferring evidence that is central to repeated patterns in the conversation archive.
 
 ## Persona Extraction
 

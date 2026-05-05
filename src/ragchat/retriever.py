@@ -6,9 +6,13 @@ from pathlib import Path
 import joblib
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.metrics.pairwise import cosine_similarity
 
 from .data_loader import Message
+
+
+RAG_STOP_WORDS = list(ENGLISH_STOP_WORDS | {"user", "users", "message", "messages", "conversation", "conversations"})
 
 
 def build_message_chunks(messages: list[Message], size: int = 12, overlap: int = 3) -> list[dict]:
@@ -58,7 +62,7 @@ class RagRetriever:
 
 def fit_index(records: list[dict], text_key: str) -> dict:
     texts = [record[text_key] for record in records]
-    vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2), min_df=1, max_features=60000)
+    vectorizer = TfidfVectorizer(stop_words=RAG_STOP_WORDS, ngram_range=(1, 2), min_df=1, max_features=60000)
     matrix = vectorizer.fit_transform(texts)
     return {"records": records, "text_key": text_key, "vectorizer": vectorizer, "matrix": matrix}
 
@@ -70,7 +74,11 @@ def _search_index(index: dict, query: str, k: int) -> list[dict]:
     scores = cosine_similarity(query_vector, index["matrix"]).ravel()
     if scores.size == 0:
         return []
-    top = np.argsort(scores)[::-1][:k]
+    pagerank_scores = np.array([float(record.get("pagerank", 0.0)) for record in index["records"]])
+    candidate_count = min(scores.size, max(k * 10, k))
+    candidates = np.argsort(scores)[::-1][:candidate_count]
+    final_scores = (0.93 * scores) + (0.07 * pagerank_scores)
+    top = candidates[np.argsort(final_scores[candidates])[::-1][:k]]
     results = []
     for row in top:
         score = float(scores[row])
@@ -78,6 +86,8 @@ def _search_index(index: dict, query: str, k: int) -> list[dict]:
             continue
         record = dict(index["records"][int(row)])
         record["score"] = round(score, 4)
+        record["final_score"] = round(float(final_scores[row]), 4)
+        record["centrality"] = round(float(record.get("pagerank", 0.0)), 4)
         results.append(record)
     return results
 
