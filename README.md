@@ -8,36 +8,141 @@ RAG Journal is an end-to-end local RAG system for a CSV of daily conversations. 
 GitHub Repository: https://github.com/Hootsworth/RAG_Project
 Live Chatbot:      https://hootsworth.github.io/RAG_Project/
 Render Backend:   https://rag-project-bufn.onrender.com
-Loom Demo:         <add Loom link here>
+Loom Demo:         https://www.loom.com/share/dd2f25fca48b4ac6b04f755f6643ea66
 ```
 
 > Note: The backend is hosted on Render Free. If the service is asleep, the first request can take 30-60 seconds while it wakes up.
 
 ## Screenshots
 
-Add screenshots here before final submission.
-
 ### Empty Chatbot State
 
-```text
-<add screenshot: chatbot before asking a question>
-```
+![Empty chatbot state](screenshots/chatbot-empty.png)
 
 ### Chatbot With Response + Evidence
 
-```text
-<add screenshot: chatbot after asking a question>
+![Chatbot with response and retrieved evidence](screenshots/chatbot-response.png)
+
+### GitHub Repository
+
+![GitHub repository view](screenshots/github-repository.png)
+
+## Key Code Blocks
+
+### Topic Checkpoint Splitting
+
+```python
+def build_topic_checkpoints(messages: list[Message]) -> list[TopicCheckpoint]:
+    checkpoints: list[TopicCheckpoint] = []
+    segment: list[Message] = []
+    segment_counter: Counter = Counter()
+    weak_shift_streak = 0
+
+    for message in messages:
+        message_counter = keyword_counter(message.text)
+        day_changed = bool(segment and message.day != segment[-1].day)
+        similarity = cosine_counts(segment_counter, message_counter)
+        enough_context = len(segment) >= 6
+        likely_shift = enough_context and similarity < 0.055 and len(message_counter) >= 2
+
+        if day_changed:
+            previous_day_messages = [m for m in segment if m.day == segment[-1].day]
+            previous_day_counter = Counter()
+            for old in previous_day_messages[-6:]:
+                previous_day_counter.update(keyword_counter(old.text))
+            day_similarity = cosine_counts(previous_day_counter or segment_counter, message_counter)
+            likely_shift = likely_shift or day_similarity < 0.12
+
+        weak_shift_streak = weak_shift_streak + 1 if likely_shift else 0
+        should_split = bool(segment and (day_changed or weak_shift_streak >= 2) and len(segment) >= 4)
+
+        if should_split:
+            checkpoints.append(_make_topic_checkpoint(len(checkpoints) + 1, segment))
+            segment = []
+            segment_counter = Counter()
+            weak_shift_streak = 0
+
+        segment.append(message)
+        segment_counter.update(message_counter)
+
+    if segment:
+        checkpoints.append(_make_topic_checkpoint(len(checkpoints) + 1, segment))
+    return checkpoints
 ```
 
-### Code Snippets
+### Retrieval With PageRank Reranking
 
-Use CodeSnap screenshots for the snippets below.
+```python
+def _search_index(index: dict, query: str, k: int) -> list[dict]:
+    query_vector = index["vectorizer"].transform([query])
+    scores = cosine_similarity(query_vector, index["matrix"]).ravel()
+    pagerank_scores = np.array([float(record.get("pagerank", 0.0)) for record in index["records"]])
 
-```text
-<add CodeSnap: topic checkpoint splitting logic from src/ragchat/segmentation.py>
-<add CodeSnap: retrieval + PageRank reranking from src/ragchat/retriever.py>
-<add CodeSnap: persona extraction from src/ragchat/persona.py>
-<add CodeSnap: artifact build pipeline from src/ragchat/pipeline.py>
+    candidate_count = min(scores.size, max(k * 10, k))
+    candidates = np.argsort(scores)[::-1][:candidate_count]
+    final_scores = (0.93 * scores) + (0.07 * pagerank_scores)
+    top = candidates[np.argsort(final_scores[candidates])[::-1][:k]]
+
+    results = []
+    for row in top:
+        score = float(scores[row])
+        if score <= 0:
+            continue
+        record = dict(index["records"][int(row)])
+        record["score"] = round(score, 4)
+        record["final_score"] = round(float(final_scores[row]), 4)
+        record["centrality"] = round(float(record.get("pagerank", 0.0)), 4)
+        results.append(record)
+    return results
+```
+
+### Persona Extraction
+
+```python
+def build_persona(messages: list[Message], speaker: str = "User 1") -> dict:
+    user_messages = [m for m in messages if m.speaker.lower() == speaker.lower()]
+    facts = _extract_items(user_messages, FACT_PATTERNS, limit=40)
+    habits = _extract_items(user_messages, HABIT_PATTERNS, limit=35)
+    traits = _infer_traits(user_messages)
+    communication = _communication_style(user_messages)
+    interests = _interests(user_messages)
+
+    return {
+        "target_speaker": speaker,
+        "message_count": len(user_messages),
+        "habits": [h.to_dict() for h in habits],
+        "personal_facts": [f.to_dict() for f in facts],
+        "personality_traits": traits,
+        "communication_style": communication,
+        "interests": interests,
+        "note": "Persona fields are rule-based and include evidence message IDs.",
+    }
+```
+
+### Artifact Build Pipeline
+
+```python
+def build_artifacts(csv_path: str | Path, out_dir: str | Path = "artifacts", target_speaker: str = "User 1") -> dict:
+    messages = parse_messages(csv_path)
+    topics = build_topic_checkpoints(messages)
+    hundreds = build_hundred_checkpoints(messages)
+    chunks = build_message_chunks(messages)
+    persona = build_persona(messages, speaker=target_speaker)
+
+    topic_records = add_pagerank_scores([t.to_dict() | {"text": t.summary} for t in topics], "text")
+    chunk_records = add_pagerank_scores(chunks, "text", top_n=6)
+    hundred_records = [h.to_dict() | {"text": h.summary} for h in hundreds]
+
+    joblib.dump(fit_index(topic_records, "text"), out / "topic_index.joblib")
+    joblib.dump(fit_index(chunk_records, "text"), out / "chunk_index.joblib")
+    joblib.dump(fit_index(hundred_records, "text"), out / "hundred_index.joblib")
+
+    return {
+        "message_count": len(messages),
+        "topic_checkpoint_count": len(topics),
+        "hundred_checkpoint_count": len(hundreds),
+        "message_chunk_count": len(chunks),
+    }
 ```
 
 ## Features
@@ -289,8 +394,8 @@ Recommended 1-2 minute flow:
 7. Ask: `What are their habits?`
 8. Briefly show the README/code snippets.
 
-Add final Loom link here:
+Final Loom demo:
 
 ```text
-Loom Demo: <add Loom link here>
+https://www.loom.com/share/dd2f25fca48b4ac6b04f755f6643ea66
 ```
