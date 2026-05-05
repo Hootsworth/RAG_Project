@@ -28,31 +28,38 @@
         <a class="sw-nav-item" href="https://github.com/Hootsworth/RAG_Project" target="_blank" rel="noreferrer">Repo</a>
       </nav>
 
-      <section class="toolbar">
-        <label for="api-url">Backend endpoint</label>
-        <div class="api-row">
-          <input id="api-url" value="https://rag-project-bufn.onrender.com">
-          <button id="save-api" type="button">Save</button>
-        </div>
-      </section>
+      <div class="sw-body">
+        <section id="chat" class="chat">
+          <div id="messages" class="messages">
+            <article class="bubble bot">
+              ASK THE ARCHIVE. TOPICS, HABITS, PERSONA, SPEECH PATTERN.
+            </article>
+            <article class="bubble bot notice">
+              RENDER FREE INSTANCES CAN SLEEP. THE FIRST QUESTION MAY TAKE 30-60 SECONDS WHILE THE API WAKES UP.
+            </article>
+          </div>
+          <form id="ask-form" class="ask-form">
+            <input id="question" autocomplete="off" placeholder="What kind of person is this user?" required>
+            <button type="submit">Ask</button>
+          </form>
+        </section>
 
-      <section id="chat" class="chat">
-        <div id="messages" class="messages">
-          <article class="bubble bot">
-            ASK THE ARCHIVE. TOPICS, HABITS, PERSONA, SPEECH PATTERN.
-          </article>
-        </div>
-        <form id="ask-form" class="ask-form">
-          <input id="question" autocomplete="off" placeholder="What kind of person is this user?" required>
-          <button type="submit">Ask</button>
-        </form>
-      </section>
+        <aside class="side-rail">
+          <section class="endpoint-card">
+            <div class="sw-kicker">Backend</div>
+            <label for="api-url">Render endpoint</label>
+            <input id="api-url" value="https://rag-project-bufn.onrender.com">
+            <button id="save-api" type="button">Save endpoint</button>
+            <p>Default API is already set. Edit only if you redeploy the backend.</p>
+          </section>
 
-      <section id="evidence" class="evidence">
-        <div class="sw-kicker">Retrieved context</div>
-        <h2>CHECKPOINTS / CHUNKS</h2>
-        <div id="evidence-list">Evidence appears after a query.</div>
-      </section>
+          <section id="evidence" class="evidence">
+            <div class="sw-kicker">Retrieved context</div>
+            <h2>CHECKPOINTS / CHUNKS</h2>
+            <div id="evidence-list">Evidence appears after a query.</div>
+          </section>
+        </aside>
+      </div>
     </main>
 
     <script src="script.js"></script>

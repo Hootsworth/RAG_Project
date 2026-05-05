@@ -17,6 +17,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -27,34 +31,36 @@ body {
 }
 
 .sw-root {
-  width: min(1180px, 100%);
+  width: min(1220px, 100%);
   margin: 0 auto;
   background: var(--sw-paper);
   border: var(--sw-border-heavy);
 }
 
 .sw-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: end;
   color: var(--sw-paper);
   background: var(--sw-ink);
   border-bottom: var(--sw-border-heavy);
 }
 
+.sw-header > div:first-child {
+  padding: 32px;
+}
+
 .sw-header h1 {
   margin: 0;
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(64px, 11vw, 118px);
-  line-height: 0.82;
+  font-size: clamp(58px, 10vw, 116px);
+  line-height: 0.84;
   letter-spacing: 0;
 }
 
 .sw-kicker,
 .sw-header-meta span,
-.toolbar label,
+.endpoint-card label,
 .sw-nav-item {
   font-size: 10px;
   letter-spacing: 4px;
@@ -67,14 +73,15 @@ body {
 }
 
 .sw-header-meta {
-  min-width: 180px;
+  height: 100%;
+  padding: 24px;
   border-left: var(--sw-border-medium);
-  padding-left: 18px;
+  display: grid;
+  align-content: end;
   text-align: right;
 }
 
 .sw-header-meta span {
-  display: block;
   color: var(--sw-subtle);
 }
 
@@ -87,12 +94,13 @@ body {
 }
 
 .sw-nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   border-bottom: var(--sw-border-heavy);
 }
 
 .sw-nav-item {
-  flex: 1;
+  min-width: 0;
   padding: 16px;
   border-right: var(--sw-border-medium);
   color: var(--sw-ink);
@@ -109,40 +117,76 @@ body {
   background: var(--sw-accent);
 }
 
-.toolbar,
-.chat,
-.evidence {
-  border-bottom: var(--sw-border-heavy);
+.sw-body {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr);
 }
 
-.toolbar {
-  padding: 20px 24px;
+.chat {
+  min-width: 0;
+  border-right: var(--sw-border-heavy);
+}
+
+.messages {
+  display: flex;
+  min-height: 520px;
+  max-height: 66vh;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--sw-paper);
+}
+
+.bubble {
+  max-width: 82%;
+  border-bottom: var(--sw-border-medium);
+  padding: 16px 18px;
+  color: var(--sw-muted);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.bubble.bot {
+  align-self: stretch;
+  max-width: 100%;
   background: var(--sw-cream);
 }
 
-.toolbar label {
-  display: block;
-  margin-bottom: 10px;
-  color: var(--sw-muted);
+.bubble.notice {
+  border-left: 8px solid var(--sw-accent);
+  color: var(--sw-ink);
+  font-weight: 700;
 }
 
-.api-row,
+.bubble.user {
+  align-self: flex-end;
+  border-left: var(--sw-border-heavy);
+  background: var(--sw-accent);
+  color: var(--sw-reverse);
+}
+
 .ask-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0;
+  padding: 16px;
+  border-top: var(--sw-border-heavy);
+  background: var(--sw-cream);
 }
 
 input {
   width: 100%;
+  min-width: 0;
   min-height: 48px;
   border: var(--sw-border-medium);
-  border-right: 0;
   border-radius: 0;
   padding: 0 14px;
   color: var(--sw-ink);
   background: var(--sw-paper);
   font: 400 12px "IBM Plex Mono", monospace;
+}
+
+.ask-form input {
+  border-right: 0;
 }
 
 button {
@@ -162,51 +206,47 @@ button:hover {
   background: var(--sw-accent);
 }
 
-.messages {
-  display: flex;
-  min-height: 390px;
-  max-height: 56vh;
-  flex-direction: column;
-  gap: 0;
-  overflow-y: auto;
+.side-rail {
+  min-width: 0;
   background: var(--sw-paper);
 }
 
-.bubble {
-  max-width: 78%;
-  border-bottom: var(--sw-border-medium);
-  padding: 16px 18px;
-  color: var(--sw-muted);
-  line-height: 1.7;
-  white-space: pre-wrap;
-}
-
-.bubble.bot {
-  align-self: stretch;
-  background: var(--sw-cream);
-}
-
-.bubble.user {
-  align-self: flex-end;
-  border-left: var(--sw-border-heavy);
-  background: var(--sw-accent);
-  color: var(--sw-reverse);
-}
-
-.ask-form {
-  padding: 16px;
-  border-top: var(--sw-border-heavy);
-  background: var(--sw-cream);
-}
-
+.endpoint-card,
 .evidence {
   padding: 24px;
+  border-bottom: var(--sw-border-heavy);
+}
+
+.endpoint-card {
+  background: var(--sw-cream);
+}
+
+.endpoint-card label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--sw-muted);
+}
+
+.endpoint-card input {
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+.endpoint-card button {
+  width: 100%;
+}
+
+.endpoint-card p {
+  margin: 12px 0 0;
+  color: var(--sw-muted);
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .evidence h2 {
   margin: 0 0 20px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(38px, 5vw, 58px);
   line-height: 0.9;
   letter-spacing: 0;
 }
@@ -215,12 +255,15 @@ button:hover {
   display: grid;
   border-top: var(--sw-border-heavy);
   color: var(--sw-muted);
+  font-size: 12px;
 }
 
 .evidence-item {
+  min-width: 0;
   border-bottom: var(--sw-border-medium);
   padding: 16px 0;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .evidence-item strong {
@@ -232,41 +275,53 @@ button:hover {
   text-transform: uppercase;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   body {
     padding: 10px;
   }
 
-  .sw-header {
-    display: block;
+  .sw-header,
+  .sw-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sw-header > div:first-child {
     padding: 24px;
   }
 
   .sw-header-meta {
-    margin-top: 24px;
-    border-left: 0;
     border-top: var(--sw-border-medium);
-    padding: 14px 0 0;
+    border-left: 0;
     text-align: left;
   }
 
+  .chat {
+    border-right: 0;
+    border-bottom: var(--sw-border-heavy);
+  }
+
+  .messages {
+    min-height: 420px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 560px) {
   .sw-nav,
-  .api-row,
   .ask-form {
     grid-template-columns: 1fr;
   }
 
-  .sw-nav {
-    display: block;
-  }
-
   .sw-nav-item {
-    display: block;
     border-right: 0;
     border-bottom: var(--sw-border-medium);
   }
 
-  input {
+  .sw-nav-item:last-child {
+    border-bottom: 0;
+  }
+
+  .ask-form input {
     border-right: var(--sw-border-medium);
     border-bottom: 0;
   }

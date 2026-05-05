@@ -10,7 +10,7 @@ apiInput.value = localStorage.getItem("rag_api_url") || DEFAULT_API_URL;
 
 saveApi.addEventListener("click", () => {
   localStorage.setItem("rag_api_url", apiInput.value.trim().replace(/\/$/, ""));
-  addBubble("BACKEND ENDPOINT SAVED.", "bot");
+  addBubble("BACKEND ENDPOINT SAVED. NEW QUESTIONS WILL USE THAT URL.", "bot");
 });
 
 function addBubble(text, kind) {
@@ -65,7 +65,7 @@ form.addEventListener("submit", async (event) => {
 
   addBubble(question, "user");
   questionInput.value = "";
-  const pending = addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS.", "bot");
+  const pending = addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS. IF RENDER IS ASLEEP, THIS CAN TAKE A MOMENT.", "bot");
 
   try {
     const response = await fetch(`${apiUrl}/ask`, {

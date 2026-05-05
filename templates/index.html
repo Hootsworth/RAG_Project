@@ -27,6 +27,9 @@
           <article class="bubble bot">
             ASK ABOUT TOPICS, HABITS, PERSONALITY, OR COMMUNICATION STYLE.
           </article>
+          <article class="bubble bot notice">
+            RENDER FREE INSTANCES CAN SLEEP. THE FIRST QUESTION MAY TAKE 30-60 SECONDS WHILE THE API WAKES UP.
+          </article>
         </div>
 
         <form id="ask-form" class="ask-form">
@@ -101,7 +104,7 @@
         if (!question) return;
         addBubble(question, "user");
         input.value = "";
-        addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS.", "bot pending");
+        addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS. IF RENDER IS ASLEEP, THIS CAN TAKE A MOMENT.", "bot pending");
         const response = await fetch("/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
