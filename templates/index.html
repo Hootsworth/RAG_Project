@@ -4,15 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Conversation RAG Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <main class="shell">
+    <main class="shell sw-root">
       <section class="chat-panel">
         <header class="topbar">
           <div>
             <p class="eyebrow">Chronological RAG + Persona</p>
-            <h1>Conversation Chatbot</h1>
+            <h1>Conversation<br>Archive</h1>
           </div>
           <div class="stats">
             <span>{{ persona.message_count }} user messages</span>
@@ -22,7 +25,7 @@
 
         <div id="messages" class="messages">
           <article class="bubble bot">
-            Ask about the conversations, habits, personality, or communication style.
+            ASK ABOUT TOPICS, HABITS, PERSONALITY, OR COMMUNICATION STYLE.
           </article>
         </div>
 
@@ -33,7 +36,8 @@
       </section>
 
       <aside class="side-panel">
-        <h2>Persona Snapshot</h2>
+        <p class="eyebrow">Persona Snapshot</p>
+        <h2>Signal Grid</h2>
         <div class="mini-grid">
           <div>
             <span class="label">Tone</span>
@@ -53,6 +57,7 @@
           </div>
         </div>
 
+        <p class="eyebrow">Retrieved Context</p>
         <h2>Evidence</h2>
         <div id="evidence" class="evidence">
           Retrieved topic summaries and message chunks will appear here.
@@ -96,7 +101,7 @@
         if (!question) return;
         addBubble(question, "user");
         input.value = "";
-        addBubble("Thinking through the checkpoints...", "bot pending");
+        addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS.", "bot pending");
         const response = await fetch("/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

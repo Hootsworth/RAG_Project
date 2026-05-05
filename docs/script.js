@@ -4,12 +4,13 @@ const form = document.getElementById("ask-form");
 const questionInput = document.getElementById("question");
 const messages = document.getElementById("messages");
 const evidenceList = document.getElementById("evidence-list");
+const DEFAULT_API_URL = "https://rag-project-bufn.onrender.com";
 
-apiInput.value = localStorage.getItem("rag_api_url") || "";
+apiInput.value = localStorage.getItem("rag_api_url") || DEFAULT_API_URL;
 
 saveApi.addEventListener("click", () => {
   localStorage.setItem("rag_api_url", apiInput.value.trim().replace(/\/$/, ""));
-  addBubble("Backend URL saved.", "bot");
+  addBubble("BACKEND ENDPOINT SAVED.", "bot");
 });
 
 function addBubble(text, kind) {
@@ -57,14 +58,14 @@ form.addEventListener("submit", async (event) => {
   const question = questionInput.value.trim();
 
   if (!apiUrl) {
-    addBubble("Add your deployed Flask backend URL first. GitHub Pages can host this frontend, but it cannot run the Python RAG backend.", "bot");
+    addBubble("ADD A BACKEND ENDPOINT FIRST. GITHUB PAGES RUNS THE INTERFACE. RENDER RUNS THE RAG API.", "bot");
     return;
   }
   if (!question) return;
 
   addBubble(question, "user");
   questionInput.value = "";
-  const pending = addBubble("Retrieving checkpoints and message chunks...", "bot");
+  const pending = addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS.", "bot");
 
   try {
     const response = await fetch(`${apiUrl}/ask`, {
@@ -74,10 +75,10 @@ form.addEventListener("submit", async (event) => {
     });
     const data = await response.json();
     pending.remove();
-    addBubble(data.answer || data.error || "No answer returned.", "bot");
+    addBubble(data.answer || data.error || "NO ANSWER RETURNED.", "bot");
     if (data.retrieval) renderEvidence(data.retrieval);
   } catch (error) {
     pending.remove();
-    addBubble(`Could not reach the backend: ${error.message}`, "bot");
+    addBubble(`BACKEND UNREACHABLE: ${error.message}`, "bot");
   }
 });
