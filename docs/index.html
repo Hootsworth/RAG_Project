@@ -28,6 +28,7 @@
 
         <section class="endpoint-card">
           <div class="section-label">Backend</div>
+          <div id="backend-status" class="backend-status checking">Checking backend...</div>
           <label for="api-url">Render endpoint</label>
           <input id="api-url" value="https://rag-project-bufn.onrender.com">
           <button id="save-api" type="button">Save endpoint</button>
@@ -58,6 +59,12 @@
             </article>
           </div>
           <form id="ask-form" class="ask-form">
+            <div class="suggestions" aria-label="Suggested questions">
+              <button type="button" data-question="What kind of person is this user?">What kind of person?</button>
+              <button type="button" data-question="What are their habits?">Habits</button>
+              <button type="button" data-question="How do they talk?">Communication style</button>
+              <button type="button" data-question="Summarize recurring topics">Recurring topics</button>
+            </div>
             <input id="question" autocomplete="off" placeholder="What kind of person is this user?" required>
             <button type="submit">Ask</button>
           </form>
