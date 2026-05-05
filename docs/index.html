@@ -6,36 +6,37 @@
     <title>Conversation RAG Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="sw-root">
-      <header class="sw-header">
+    <main class="app-root">
+      <header class="top-shell">
         <div>
-          <div class="sw-kicker">RAG SYSTEM — GITHUB PAGES</div>
-          <h1>CONVERSATION<br>ARCHIVE</h1>
+          <div class="kicker">RAG SYSTEM · GITHUB PAGES</div>
+          <h1>Conversation intelligence</h1>
+          <p>Ask the indexed conversation archive about topics, habits, persona signals, and communication style.</p>
         </div>
-        <div class="sw-header-meta">
-          <span>RENDER API</span>
-          <strong>LIVE</strong>
+        <div class="status-stack">
+          <span>Render API</span>
+          <strong>Connected</strong>
         </div>
       </header>
 
-      <nav class="sw-nav" aria-label="Project sections">
-        <a class="sw-nav-item sw-nav-active" href="#chat">Ask</a>
-        <a class="sw-nav-item" href="#evidence">Evidence</a>
-        <a class="sw-nav-item" href="https://github.com/Hootsworth/RAG_Project" target="_blank" rel="noreferrer">Repo</a>
+      <nav class="app-nav" aria-label="Project sections">
+        <a class="nav-item nav-active" href="#chat">Ask</a>
+        <a class="nav-item" href="#evidence">Evidence</a>
+        <a class="nav-item" href="https://github.com/Hootsworth/RAG_Project" target="_blank" rel="noreferrer">Repository</a>
       </nav>
 
-      <div class="sw-body">
+      <div class="workspace">
         <section id="chat" class="chat">
           <div id="messages" class="messages">
             <article class="bubble bot">
-              ASK THE ARCHIVE. TOPICS, HABITS, PERSONA, SPEECH PATTERN.
+              Ask the archive about topics, habits, persona, or speech patterns.
             </article>
             <article class="bubble bot notice">
-              RENDER FREE INSTANCES CAN SLEEP. THE FIRST QUESTION MAY TAKE 30-60 SECONDS WHILE THE API WAKES UP.
+              Render free instances can sleep. The first question may take 30-60 seconds while the API wakes up.
             </article>
           </div>
           <form id="ask-form" class="ask-form">
@@ -46,7 +47,7 @@
 
         <aside class="side-rail">
           <section class="endpoint-card">
-            <div class="sw-kicker">Backend</div>
+            <div class="kicker">Backend</div>
             <label for="api-url">Render endpoint</label>
             <input id="api-url" value="https://rag-project-bufn.onrender.com">
             <button id="save-api" type="button">Save endpoint</button>
@@ -54,8 +55,8 @@
           </section>
 
           <section id="evidence" class="evidence">
-            <div class="sw-kicker">Retrieved context</div>
-            <h2>CHECKPOINTS / CHUNKS</h2>
+            <div class="kicker">Retrieved context</div>
+            <h2>Evidence trail</h2>
             <div id="evidence-list">Evidence appears after a query.</div>
           </section>
         </aside>

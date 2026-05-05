@@ -6,16 +6,17 @@
     <title>Conversation RAG Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <main class="shell sw-root">
+    <main class="shell app-root">
       <section class="chat-panel">
         <header class="topbar">
           <div>
             <p class="eyebrow">Chronological RAG + Persona</p>
-            <h1>Conversation<br>Archive</h1>
+            <h1>Conversation intelligence</h1>
+            <p>Ask the indexed archive about topic checkpoints, message evidence, and persona signals.</p>
           </div>
           <div class="stats">
             <span>{{ persona.message_count }} user messages</span>
@@ -25,10 +26,10 @@
 
         <div id="messages" class="messages">
           <article class="bubble bot">
-            ASK ABOUT TOPICS, HABITS, PERSONALITY, OR COMMUNICATION STYLE.
+            Ask about topics, habits, personality, or communication style.
           </article>
           <article class="bubble bot notice">
-            RENDER FREE INSTANCES CAN SLEEP. THE FIRST QUESTION MAY TAKE 30-60 SECONDS WHILE THE API WAKES UP.
+            Render free instances can sleep. The first question may take 30-60 seconds while the API wakes up.
           </article>
         </div>
 
@@ -104,7 +105,7 @@
         if (!question) return;
         addBubble(question, "user");
         input.value = "";
-        addBubble("RETRIEVING TOPIC CHECKPOINTS AND MESSAGE CHUNKS. IF RENDER IS ASLEEP, THIS CAN TAKE A MOMENT.", "bot pending");
+        addBubble("Retrieving topic checkpoints and message chunks. If Render is asleep, this can take a moment.", "bot pending");
         const response = await fetch("/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
