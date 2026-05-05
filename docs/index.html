@@ -6,34 +6,52 @@
     <title>Conversation RAG Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="app-root">
-      <header class="top-shell">
-        <div>
-          <div class="kicker">RAG SYSTEM · GITHUB PAGES</div>
-          <h1>Conversation intelligence</h1>
-          <p>Ask the indexed conversation archive about topics, habits, persona signals, and communication style.</p>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">R</span>
+          <div>
+            <strong>RAG Project</strong>
+            <span>Conversation memory</span>
+          </div>
         </div>
-        <div class="status-stack">
-          <span>Render API</span>
-          <strong>Connected</strong>
-        </div>
-      </header>
 
-      <nav class="app-nav" aria-label="Project sections">
-        <a class="nav-item nav-active" href="#chat">Ask</a>
-        <a class="nav-item" href="#evidence">Evidence</a>
-        <a class="nav-item" href="https://github.com/Hootsworth/RAG_Project" target="_blank" rel="noreferrer">Repository</a>
-      </nav>
+        <nav class="side-nav" aria-label="Project sections">
+          <a class="side-nav-item active" href="#chat">Ask archive</a>
+          <a class="side-nav-item" href="#evidence">Evidence</a>
+          <a class="side-nav-item" href="https://github.com/Hootsworth/RAG_Project" target="_blank" rel="noreferrer">GitHub repo</a>
+        </nav>
 
-      <div class="workspace">
+        <section class="endpoint-card">
+          <div class="section-label">Backend</div>
+          <label for="api-url">Render endpoint</label>
+          <input id="api-url" value="https://rag-project-bufn.onrender.com">
+          <button id="save-api" type="button">Save endpoint</button>
+          <p>Already configured. Change this only after redeploying the backend.</p>
+        </section>
+      </aside>
+
+      <section class="main-panel">
+        <header class="hero-bar">
+          <div>
+            <div class="section-label">Chronological RAG + persona extraction</div>
+            <h1>Ask the conversation archive.</h1>
+            <p>Retrieves topic checkpoints, raw message chunks, and persona signals from the indexed CSV.</p>
+          </div>
+          <div class="api-pill">
+            <span></span>
+            Render live
+          </div>
+        </header>
+
         <section id="chat" class="chat">
           <div id="messages" class="messages">
             <article class="bubble bot">
-              Ask the archive about topics, habits, persona, or speech patterns.
+              Ask about habits, personality, communication style, or specific conversation details.
             </article>
             <article class="bubble bot notice">
               Render free instances can sleep. The first question may take 30-60 seconds while the API wakes up.
@@ -44,23 +62,13 @@
             <button type="submit">Ask</button>
           </form>
         </section>
+      </section>
 
-        <aside class="side-rail">
-          <section class="endpoint-card">
-            <div class="kicker">Backend</div>
-            <label for="api-url">Render endpoint</label>
-            <input id="api-url" value="https://rag-project-bufn.onrender.com">
-            <button id="save-api" type="button">Save endpoint</button>
-            <p>Default API is already set. Edit only if you redeploy the backend.</p>
-          </section>
-
-          <section id="evidence" class="evidence">
-            <div class="kicker">Retrieved context</div>
-            <h2>Evidence trail</h2>
-            <div id="evidence-list">Evidence appears after a query.</div>
-          </section>
-        </aside>
-      </div>
+      <aside class="evidence-panel" id="evidence">
+        <div class="section-label">Retrieved context</div>
+        <h2>Evidence trail</h2>
+        <div id="evidence-list">Evidence appears after a query.</div>
+      </aside>
     </main>
 
     <script src="script.js"></script>
