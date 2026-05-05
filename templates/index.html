@@ -6,7 +6,7 @@
     <title>Conversation RAG Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,500;6..72,650&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
@@ -14,9 +14,9 @@
       <section class="chat-panel">
         <header class="topbar">
           <div>
-            <p class="eyebrow">Chronological RAG + Persona</p>
-            <h1>Ask the conversation archive.</h1>
-            <p>Ask the indexed archive about topic checkpoints, message evidence, and persona signals.</p>
+            <p class="eyebrow">Chronological notes + persona extraction</p>
+            <h1>Ask the conversation journal.</h1>
+            <p>Search topic checkpoints, message evidence, and persona signals from the indexed archive.</p>
           </div>
           <div class="stats">
             <span>{{ persona.message_count }} user messages</span>

@@ -1,16 +1,16 @@
 :root {
-  --ink: #171717;
-  --muted: #6f746f;
-  --line: #deded8;
-  --page: #f4f5f2;
-  --panel: #ffffff;
-  --panel-alt: #f8f8f4;
-  --charcoal: #20211f;
-  --charcoal-2: #2d2f2b;
-  --teal: #277c75;
-  --teal-soft: #dff0ed;
-  --amber: #c97a21;
-  --amber-soft: #fff1df;
+  --ink: #20231f;
+  --muted: #687067;
+  --line: #d9dfd5;
+  --page: #eef2ec;
+  --panel: #fffefa;
+  --panel-alt: #f7f9f4;
+  --charcoal: #26312c;
+  --charcoal-2: #33423c;
+  --teal: #58796b;
+  --teal-soft: #e2ece5;
+  --amber: #9b6845;
+  --amber-soft: #f7eadf;
 }
 
 *,
@@ -66,7 +66,7 @@ body {
   place-items: center;
   border-radius: 8px;
   color: var(--charcoal);
-  background: #f0c35a;
+  background: var(--teal);
   font-weight: 800;
 }
 
@@ -81,7 +81,7 @@ body {
 
 .brand span {
   margin-top: 3px;
-  color: #bfc3ba;
+  color: #c5cec5;
   font-size: 12px;
 }
 
@@ -117,30 +117,30 @@ body {
 
 .endpoint-card {
   align-self: end;
-  border: 1px solid #3b3e38;
+  border: 1px solid #45564f;
   border-radius: 8px;
   padding: 14px;
   background: var(--charcoal-2);
 }
 
 .endpoint-card .section-label {
-  color: #f0c35a;
+  color: #dbe8df;
 }
 
 .endpoint-card label {
   display: block;
   margin-top: 12px;
-  color: #bfc3ba;
+  color: #c5cec5;
 }
 
 .endpoint-card input {
   width: 100%;
   margin: 8px 0 10px;
-  border: 1px solid #4a4e47;
+  border: 1px solid #52655d;
   border-radius: 8px;
   padding: 10px;
   color: white;
-  background: #171816;
+  background: #1f2824;
   font: 400 11px "JetBrains Mono", monospace;
 }
 
@@ -150,14 +150,14 @@ body {
   border: 0;
   border-radius: 8px;
   color: var(--charcoal);
-  background: #f0c35a;
+  background: #dbe8df;
   font-weight: 800;
   cursor: pointer;
 }
 
 .endpoint-card p {
   margin: 10px 0 0;
-  color: #bfc3ba;
+  color: #c5cec5;
   font-size: 12px;
   line-height: 1.5;
 }
@@ -187,8 +187,10 @@ p {
 
 h1 {
   margin: 8px 0 8px;
+  font-family: "Newsreader", Georgia, serif;
   font-size: clamp(30px, 4vw, 48px);
-  line-height: 1.02;
+  font-weight: 650;
+  line-height: 1.04;
   letter-spacing: 0;
 }
 
@@ -252,15 +254,15 @@ h1 {
 }
 
 .bubble.notice {
-  border-color: #eccfa9;
-  color: #744711;
+  border-color: #e7cab5;
+  color: #704b31;
   background: var(--amber-soft);
 }
 
 .bubble.user {
   align-self: flex-end;
-  border-color: #b8d8d4;
-  color: #12423e;
+  border-color: #bed2c6;
+  color: #24463a;
   background: var(--teal-soft);
 }
 
@@ -297,19 +299,21 @@ h1 {
 }
 
 .ask-form button:hover {
-  background: #1f6661;
+  background: #456459;
 }
 
 .evidence-panel {
   min-width: 0;
   padding: 20px;
   overflow-y: auto;
-  background: #fbfbf8;
+  background: #fbfcfa;
 }
 
 .evidence-panel h2 {
   margin: 6px 0 16px;
+  font-family: "Newsreader", Georgia, serif;
   font-size: 24px;
+  font-weight: 650;
   letter-spacing: 0;
 }
 

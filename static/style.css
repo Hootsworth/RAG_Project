@@ -1,14 +1,14 @@
 :root {
   color-scheme: light;
-  --ink: #171717;
-  --muted: #6f746f;
-  --line: #deded8;
-  --page: #f4f5f2;
-  --panel: #ffffff;
-  --panel-alt: #f8f8f4;
-  --teal: #277c75;
-  --teal-soft: #dff0ed;
-  --amber-soft: #fff1df;
+  --ink: #20231f;
+  --muted: #687067;
+  --line: #d9dfd5;
+  --page: #eef2ec;
+  --panel: #fffefa;
+  --panel-alt: #f7f9f4;
+  --teal: #58796b;
+  --teal-soft: #e2ece5;
+  --amber-soft: #f7eadf;
 }
 
 *,
@@ -77,8 +77,10 @@ p {
 
 h1 {
   margin-bottom: 8px;
+  font-family: "Newsreader", Georgia, serif;
   font-size: clamp(30px, 4vw, 48px);
-  line-height: 1.02;
+  font-weight: 650;
+  line-height: 1.04;
   letter-spacing: 0;
 }
 
@@ -143,15 +145,15 @@ h2 {
 }
 
 .bubble.notice {
-  border-color: #eccfa9;
-  color: #744711;
+  border-color: #e7cab5;
+  color: #704b31;
   background: var(--amber-soft);
 }
 
 .bubble.user {
   align-self: flex-end;
-  border-color: #b8d8d4;
-  color: #12423e;
+  border-color: #bed2c6;
+  color: #24463a;
   background: var(--teal-soft);
 }
 
@@ -188,14 +190,14 @@ button {
 }
 
 button:hover {
-  background: #1f6661;
+  background: #456459;
 }
 
 .side-panel {
   min-width: 0;
   overflow-y: auto;
   padding: 20px;
-  background: #fbfbf8;
+  background: #fbfcfa;
 }
 
 .mini-grid {

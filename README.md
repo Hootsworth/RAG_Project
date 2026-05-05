@@ -118,6 +118,7 @@ Repository:
 
 ```text
 GitHub repo URL: https://github.com/Hootsworth/RAG_Project.git
+GitHub Pages chatbot URL: https://hootsworth.github.io/RAG_Project/
 ```
 
 For GitHub Pages, use the static frontend in `docs/`:
@@ -131,7 +132,7 @@ For GitHub Pages, use the static frontend in `docs/`:
 Add the deployed URLs here after deployment:
 
 ```text
-Hosted chatbot URL: <paste-url-here>
+Hosted chatbot URL: https://hootsworth.github.io/RAG_Project/
 Loom demo URL: <paste-loom-url-here>
 ```
 
