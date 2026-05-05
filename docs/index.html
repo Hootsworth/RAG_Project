@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conversation RAG Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">GitHub Pages Frontend</p>
+        <h1>Conversation RAG Chatbot</h1>
+        <p>
+          Static frontend for the chronological RAG and persona chatbot. Connect it to the Flask API after deploying the backend on Render or another cloud host.
+        </p>
+      </section>
+
+      <section class="toolbar">
+        <label for="api-url">Backend API URL</label>
+        <div class="api-row">
+          <input id="api-url" placeholder="https://your-render-app.onrender.com">
+          <button id="save-api" type="button">Save</button>
+        </div>
+      </section>
+
+      <section class="chat">
+        <div id="messages" class="messages">
+          <article class="bubble bot">
+            Ask: “What kind of person is this user?”, “What are their habits?”, or “How do they talk?”
+          </article>
+        </div>
+        <form id="ask-form" class="ask-form">
+          <input id="question" autocomplete="off" placeholder="What kind of person is this user?" required>
+          <button type="submit">Ask</button>
+        </form>
+      </section>
+
+      <section class="evidence">
+        <h2>Retrieved Evidence</h2>
+        <div id="evidence-list">Evidence appears after a query.</div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: conversation-rag-chatbot
+    env: python
+    buildCommand: pip install -r requirements.txt && python scripts/build_index.py --csv data/conversations.csv --out artifacts
+    startCommand: gunicorn src.ragchat.app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
