@@ -371,29 +371,6 @@ Expected response:
 {"status":"ok"}
 ```
 
-## Demo Questions
-
-Use these in the Loom demo:
-
-- What kind of person is this user?
-- What are their habits?
-- How do they talk?
-- Summarize recurring topics
-- What did the user say about Portland?
-
-## Loom Demo Plan
-
-Recommended 1-2 minute flow:
-
-1. Open the chatbot: `https://hootsworth.github.io/RAG_Project/`
-2. Show the backend status card.
-3. Mention Render may take 30-60 seconds to wake up.
-4. Ask: `What kind of person is this user?`
-5. Show the answer and copy button.
-6. Show the evidence panel with relevance and centrality.
-7. Ask: `What are their habits?`
-8. Briefly show the README/code snippets.
-
 Final Loom demo:
 
 ```text
